@@ -1,10 +1,10 @@
-package q3;
+package question1;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
-public class Question3 {
+public class CollectionsMain {
 
     public static void main(String[] args) {
 
