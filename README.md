@@ -1,23 +1,15 @@
 ## Java Mülakat Hazırlığı
 
-### Basics
+### Core Java
 
 - OOP Design
-  - interface
-  - kalıtım
-  - overload
-  - override
-  - constructor
 - Exceptions
-- Collections
-  - Set
-  - Map
-  - List
-  - LinkedList
-- Stream
+- Collection API
+- Stream API
 - Thread
+- Generics
 
-### Mid
+### Ekstra Konular
 - SQL
 - Git
 - Linux
@@ -25,6 +17,34 @@
 - Spring Framework
 - Unit Test
 
-### Kaynak
-- http://www.bilisim.io
-- Akın Kaldıroğlu http://www.javaturk.org/udemy/
+### Önerilen Kitaplar
+
+- Code Complete
+- Clean Code
+- Effective Java
+- Head First Servlet and JSP
+- Core Java, Volume I:  Fundamentals  | Cay S. Horstmann
+- Core Java, Volume II: Fundamentals  | Cay S. Horstmann
+- Java: The Complete Reference
+- Pratik Agile -> Özcan ACAR
+- Design Patterns -> Özcan ACAR
+- Pratik Git -> Özcan ACAR
+- Pratik Spring Core-> Özcan ACAR
+
+Özcan ACAR'ın kitapleri kendi web sitesi üzerinde ücretsizdir.
+
+### Önerilen Eğitimler
+
+Akın KALDIROĞLU'nun aşağıdaki bütün eğitimleri
+
+- Clean Code
+- Java ile Nesne Merkezli Programlama
+- Spring ile Kurumsal Uygulama Geliştirme: Temeller
+- Java il RESTful Web Servisi Geliştirme: Temeller
+- Spring ile Kurumsal Uygulama Geliştirme: AOP
+- Design Patterns
+
+### Web Siteleri
+
+- www.bilisim.io
+- www.javaturk.org
