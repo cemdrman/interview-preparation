@@ -14,9 +14,16 @@
   - Map
   - List
   - LinkedList
+- Stream
 - Thread
 
 ### Mid
+- SQL
+- Git
+- Linux
+- Docker
+- Spring Framework
+- Unit Test
 
 ### Kaynak
 - http://www.bilisim.io
