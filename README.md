@@ -44,7 +44,13 @@ Akın KALDIROĞLU'nun aşağıdaki bütün eğitimleri
 - Spring ile Kurumsal Uygulama Geliştirme: AOP
 - Design Patterns
 
-### Web Siteleri
+### Türkçe Kaynaklar
 
 - www.bilisim.io
 - www.javaturk.org
+
+### Java Temel Mülakat Soruları
+
+- https://www.datacamp.com/blog/java-interview-questions
+- https://codefinity.com/blog/The-80-Top-Java-Interview-Questions-and-Answers
+- https://www.guvi.in/blog/40-java-interview-questions-for-freshers/
