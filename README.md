@@ -47,6 +47,7 @@ Akın KALDIROĞLU'nun aşağıdaki bütün eğitimleri
 ### Türkçe Kaynaklar
 
 - www.bilisim.io
+- https://medium.com/@cemdrman
 - www.javaturk.org
 
 ### Java Temel Mülakat Soruları
