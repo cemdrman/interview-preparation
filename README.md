@@ -1,5 +1,7 @@
 ## Java Mülakat Hazırlığı
 
+### Yeni Başlayanlar İçin Konular
+
 ### Core Java
 
 - OOP Design
@@ -55,3 +57,41 @@ Akın KALDIROĞLU'nun aşağıdaki bütün eğitimleri
 - https://www.datacamp.com/blog/java-interview-questions
 - https://codefinity.com/blog/The-80-Top-Java-Interview-Questions-and-Answers
 - https://www.guvi.in/blog/40-java-interview-questions-for-freshers/
+
+### Senior Java Developer İçin
+- System Design
+- Microservices Architecture
+- Cloud (AWS, Azure, GCP)
+- Kubernetes
+- CI/CD
+- Monitoring & Logging
+- Security
+- Performance Tuning
+- Messaging Systems (Kafka, RabbitMQ)
+- Event-Driven Architecture
+- API Design (REST, GraphQL)
+- Database Design & Optimization
+- DevOps Practices
+- Scalability & High Availability
+- Distributed Systems
+- Caching Strategies
+- Load Balancing
+- Networking Basics
+- Data Structures & Algorithms
+- Design Patterns
+- Testing Strategies (Unit, Integration, E2E)
+- Code Reviews & Best Practices
+- Multi-threading & Concurrency
+- Spring Boot & Spring Cloud
+- Spring Security
+- Spring Batch
+- Hibernate & JPA
+- NoSQL Databases (MongoDB, Cassandra)
+- Search Engines (Elasticsearch)
+- Distributed Tracing (Jaeger, Zipkin)
+- Distributed Caching (Redis, Memcached)
+- Distributed Transactions
+
+![Yol Haritası](java-roadmap.png "roadmap.sh/java")
+
+![Java Logo](https://www.oracle.com/a/ocom/img/cb71-java-logo.png)
