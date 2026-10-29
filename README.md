@@ -1,5 +1,7 @@
 ## Java Mülakat Hazırlığı
 
+> Repoya eklenmesi planlanan içerikler ve öneriler için [YAPILACAKLAR.md](YAPILACAKLAR.md) dosyasına bakın.
+
 ### Yeni Başlayanlar İçin Konular
 
 ### Core Java
@@ -33,7 +35,7 @@
 - Pratik Git -> Özcan ACAR
 - Pratik Spring Core-> Özcan ACAR
 
-Özcan ACAR'ın kitapleri kendi web sitesi üzerinde ücretsizdir.
+Özcan ACAR'ın kitapları kendi web sitesi üzerinde ücretsizdir.
 
 ### Önerilen Eğitimler
 
@@ -42,7 +44,7 @@ Akın KALDIROĞLU'nun aşağıdaki bütün eğitimleri
 - Clean Code
 - Java ile Nesne Merkezli Programlama
 - Spring ile Kurumsal Uygulama Geliştirme: Temeller
-- Java il RESTful Web Servisi Geliştirme: Temeller
+- Java ile RESTful Web Servisi Geliştirme: Temeller
 - Spring ile Kurumsal Uygulama Geliştirme: AOP
 - Design Patterns
 
