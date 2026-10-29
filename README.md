@@ -27,6 +27,7 @@
 - [Spring Boot](konular/spring-boot.md)
 - [Apache Kafka](konular/kafka.md)
 - [Redis](konular/redis.md)
+- [RabbitMQ](konular/rabbitmq.md)
 
 ### Örnek Proje
 
