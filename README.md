@@ -25,6 +25,7 @@
 ### Konu Anlatımları
 
 - [Spring Boot](konular/spring-boot.md)
+- [Apache Kafka](konular/kafka.md)
 
 ### Örnek Proje
 
