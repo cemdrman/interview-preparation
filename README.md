@@ -28,6 +28,7 @@
 - [Apache Kafka](konular/kafka.md)
 - [Redis](konular/redis.md)
 - [RabbitMQ](konular/rabbitmq.md)
+- [Feign Client](konular/feign-client.md)
 
 ### Örnek Proje
 
