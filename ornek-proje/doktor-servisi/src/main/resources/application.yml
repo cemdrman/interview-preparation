@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: doktor-servisi
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:doktordb
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,caches

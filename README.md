@@ -22,6 +22,10 @@
 - Spring Framework
 - Unit Test
 
+### Örnek Proje
+
+- [Hastane Randevu Sistemi](ornek-proje): Spring Boot 4, Kafka, Redis, RabbitMQ ve Feign Client bir arada
+
 ### Önerilen Kitaplar
 
 - Code Complete

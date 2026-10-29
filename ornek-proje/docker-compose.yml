@@ -1,0 +1,16 @@
+services:
+  kafka:
+    image: apache/kafka:4.0.0
+    ports:
+      - "9092:9092"
+
+  redis:
+    image: redis:7.4
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
