@@ -1,12 +1,13 @@
-## Yeni Java Özellikleri (Java 9 → Java 25)
+## Yeni Java Özellikleri (Java 9 → Java 27)
 
 Mülakatlarda hâlâ Java 8 ile gelen lambda ve Stream API soruları çok soruluyor fakat artık bunun yanında
 "record nedir?", "sealed class ne işe yarar?", "virtual thread platform thread'den ne farkı var?" gibi
-sorular da gelmeye başladı. Bu yazıda Java 9'dan Java 25'e kadar gelen ve mülakatlarda en çok karşımıza çıkan
+sorular da gelmeye başladı. Bu yazıda Java 9'dan Java 27'ye kadar gelen ve mülakatlarda en çok karşımıza çıkan
 özellikleri örneklerle anlatmaya çalışacağız.
 
 Örneklerin büyük kısmı bu klasördeki class'larda çalışır halde duruyor. Proje Java 21 ile derlendiği için
-Java 22 ve sonrasına ait örnekler sadece bu dosyada yer alıyor; onları denemek için JDK 25 veya üstü gerekiyor.
+Java 22 ve sonrasına ait örnekler sadece bu dosyada yer alıyor; onları denemek için ilgili JDK sürümü gerekiyor.
+Preview özellikleri denemek için `--enable-preview` parametresini vermemiz gerekiyor.
 
 | Sürüm | LTS | Mülakatta öne çıkanlar |
 |---|---|---|
@@ -21,6 +22,8 @@ Java 22 ve sonrasına ait örnekler sadece bu dosyada yer alıyor; onları denem
 | Java 22 | | unnamed variable (`_`) |
 | Java 24 | | stream gatherer |
 | Java 25 | ✔ | scoped value, flexible constructor body, compact source file, module import |
+| Java 26 | | HTTP/3, final field'ların reflection ile değiştirilmesine uyarı |
+| Java 27 | | compact object headers varsayılan, her ortamda G1, lazy constant (preview), structured concurrency (preview) |
 
 ### Java 9 - 15
 
@@ -371,12 +374,144 @@ void islem() {
 tuttukları için milyonlarca virtual thread ile pahalıya patlayabiliyor. `ScopedValue` scope bittiğinde
 otomatik olarak temizlenir.
 
-#### Compact Object Headers
+#### Compact Object Headers (Java 25)
 
-Java 25 ile `-XX:+UseCompactObjectHeaders` parametresi ile her nesnenin header boyutu küçültülebiliyor. Kod
-değiştirmeden heap kullanımı azalıyor. Bu konuyu
+Java 25 ile `-XX:+UseCompactObjectHeaders` parametresi verilerek her nesnenin header boyutu küçültülebiliyordu.
+Java 27 ile bu özellik varsayılan olarak açık geliyor, detaylarını bir sonraki başlıkta göreceğiz.
+
+### Java 26 - 27
+
+Java 26 Mart 2026'da, Java 27 Eylül 2026'da çıktı. İkisi de LTS değil, bir sonraki LTS sürümü Java 29 olacak.
+Fakat bu sürümlerde gelen bazı değişiklikler kod değiştirmeden uygulamamızın davranışını değiştirdiği için
+mülakatlarda sorulmaya başladı.
+
+#### Compact Object Headers by Default
+
+Java'da her nesnenin başında JVM'in kullandığı bir header bulunur. 64-bit sistemlerde bu header 96 bit (12 byte)
+yer kaplıyordu. Java 27 ile header **64 bit**'e (8 byte) indi ve bu davranış artık **varsayılan** olarak açık.
+
+```java
+record Randevu(int id, int doktorId) {}
+
+// Java 25: 12 byte header + 4 + 4 = 20 byte -> 8 byte hizalama ile 24 byte
+// Java 27:  8 byte header + 4 + 4 = 16 byte
+```
+
+Gördüğümüz üzere bu nesne %33 küçüldü. Nesneler 8 byte'ın katlarına hizalandığı (alignment) için kazanç her
+nesnede bu kadar olmuyor fakat milyonlarca küçük nesne tutan bir uygulamada heap kullanımı belirgin şekilde azalıyor. JEP'te paylaşılan SPECjbb2015 testinde
+heap kullanımı **%22**, CPU kullanımı **%8** azalmış. Eski davranışa dönmek istersek:
+
+```
+java -XX:-UseCompactObjectHeaders -jar uygulama.jar
+```
+
+Bu konuyu
 [Your Heap Just Got Smaller in Java 27: Compact Object Headers](https://medium.com/@cemdrman/your-heap-just-got-smaller-in-java-27-compact-object-headers-9b6d8b62f63f)
 yazısında detaylı anlattık.
+
+#### G1 Default Garbage Collector in All Environments
+
+Java 9'dan beri varsayılan garbage collector G1'di fakat bu sadece **server** sınıfı makineler için geçerliydi.
+Tek CPU'su olan ya da 1792 MB'tan az belleği olan ortamlarda JVM sessizce **Serial GC** seçiyordu.
+
+Bu durum özellikle Kubernetes'te can sıkıyordu. Pod'a `cpu: 1` ve `memory: 1Gi` limiti verdiğimizde JVM kendini
+küçük bir makinede sanıyor ve Serial GC ile çalışıyordu. Java 27 ile GC belirtmediğimiz her durumda **G1**
+seçiliyor. Serial GC kaldırılmadı, istersek yine seçebiliyoruz:
+
+```
+java -XX:+UseSerialGC -jar uygulama.jar
+```
+
+Hangi GC'nin seçildiğini görmek için:
+
+```
+java -Xlog:gc -version
+```
+
+#### Lazy Constants (Preview)
+
+Bir `static final` field'ı class yüklenirken hemen oluşturmak uygulamanın açılışını yavaşlatabiliyor. Lazy
+oluşturmak istediğimizde ise field'ı `final` yapamıyor, double-checked locking gibi hataya açık kodlar yazıyorduk.
+`LazyConstant` değeri ilk `get()` çağrısında **bir kere** oluşturur, birden fazla thread aynı anda çağırsa bile.
+
+```java
+static final LazyConstant<String> AYAR = LazyConstant.of(() -> {
+    System.out.println("ayar yükleniyor");
+    return "hastane-ayarlari";
+});
+
+System.out.println("uygulama başladı");
+System.out.println(AYAR.get());
+System.out.println(AYAR.get());
+//uygulama başladı
+//ayar yükleniyor
+//hastane-ayarlari
+//hastane-ayarlari
+```
+
+Gördüğümüz üzere "ayar yükleniyor" sadece bir kere yazıldı. Java 27 ile `List.ofLazy`, `Map.ofLazy` ve
+`Set.ofLazy` methodları da var. JVM `LazyConstant` değerini bir kere oluştuktan sonra sabit gibi optimize edebiliyor.
+
+#### Primitive Types in Patterns (Preview)
+
+Pattern matching artık `int`, `long`, `double`, `boolean` gibi primitive tiplerle de çalışıyor:
+
+```java
+static String durum(int kod) {
+    return switch (kod) {
+        case 0 -> "bekliyor";
+        case 1 -> "onaylandı";
+        case int i when i >= 100 -> "sistem hatası: " + i;
+        case int i -> "bilinmeyen durum: " + i;
+    };
+}
+
+int sayi = 100;
+if (sayi instanceof byte b) {
+    System.out.println("byte'a sığar: " + b); //byte'a sığar: 100
+}
+
+int buyuk = 1000;
+if (!(buyuk instanceof byte)) {
+    System.out.println("1000 byte'a sığmaz"); //1000 byte'a sığmaz
+}
+```
+
+Burada önemli olan nokta `instanceof byte` kontrolünün değerin **kayıpsız** dönüştürülüp dönüştürülemeyeceğine
+bakması. Eskiden `(byte) 1000` cast'i hata vermeden `-24` döndürüyordu.
+
+#### Structured Concurrency (Preview)
+
+Bir istekte birden fazla servisi aynı anda çağırıp sonuçlarını birleştirmek istediğimizi düşünelim. Bunu
+`ExecutorService` ile yaptığımızda bir görev hata alırsa diğerini iptal etmek, thread'leri kapatmak bizim işimizdi.
+`StructuredTaskScope` alt görevleri bir blok içine alıyor, blok bitince hepsinin bitmiş olmasını garanti ediyor.
+
+```java
+record Cevap(String doktor, int randevuSayisi) {}
+
+Cevap getir() throws ExecutionException, InterruptedException {
+    try (var scope = StructuredTaskScope.open()) {
+        Subtask<String> doktor = scope.fork(() -> doktorServisi.getir());
+        Subtask<Integer> randevu = scope.fork(() -> randevuServisi.say());
+
+        scope.join(); //biri hata alırsa diğeri iptal edilir
+
+        return new Cevap(doktor.get(), randevu.get());
+    }
+}
+```
+
+Her `fork` bir virtual thread'de çalışır. Java 27'de `join()` hata durumunda `ExecutionException` fırlatıyor.
+Bu özellik yedinci kez preview olarak geldi, yani API hâlâ değişiyor.
+
+#### Diğer Değişiklikler
+
+- **HTTP/3 (Java 26):** `HttpClient` artık HTTP/3 destekliyor. `HttpClient.newBuilder().version(HttpClient.Version.HTTP_3)` ile seçilebiliyor.
+- **Prepare to Make Final Mean Final (Java 26):** Reflection ile `final` field'ları değiştirmek artık uyarı veriyor. İleride tamamen engellenecek. `final` field'ları reflection ile değiştiren kütüphanelere dikkat etmek gerekiyor.
+- **Applet API kaldırıldı (Java 26).**
+- **Post-Quantum Hybrid Key Exchange (Java 27):** TLS 1.3 bağlantılarında klasik ECDHE ile ML-KEM'i birleştiren, kuantum bilgisayarlara dayanıklı anahtar değişimi geldi. `X25519MLKEM768` varsayılan olarak açık.
+- **JFR In-Process Data Redaction (Java 27):** Java Flight Recorder kayıtlarında komut satırı parametreleri, environment variable'lar ve system property'ler içindeki `password`, `token`, `secret` gibi değerler dosyaya yazılmadan `[REDACTED]` ile maskeleniyor. Varsayılan olarak açık.
+- **PEM Encodings (Preview)** ve **Vector API (Incubator)** geliştirilmeye devam ediyor.
 
 ### Mülakat Soruları
 
@@ -455,10 +590,35 @@ sonraki sürümlerde değişebilir ya da kaldırılabilir (String Templates Java
 production'da kullanılması önerilmez.
 </details>
 
+<details>
+<summary>11. Java 27'ye geçtik, kod değiştirmeden heap kullanımı düştü. Neden?</summary>
+
+Java 27 ile compact object headers varsayılan olarak açık geldi. Her nesnenin header'ı 12 byte'tan 8 byte'a indi.
+Çok sayıda küçük nesne tutan uygulamalarda heap kullanımı ve GC sayısı azalır. Kapatmak için
+`-XX:-UseCompactObjectHeaders` kullanılır.
+</details>
+
+<details>
+<summary>12. Kubernetes'te 1 CPU limiti olan bir pod'da Java 21 hangi GC'yi kullanır? Java 27'de ne değişti?</summary>
+
+Java 21 tek CPU ya da 1792 MB'tan az bellek gördüğünde Serial GC seçer. Java 27 ile GC belirtilmediği her durumda
+G1 seçilir. Hangi GC'nin kullanıldığından emin olmak için GC'yi parametre ile belirtmek en doğrusudur.
+</details>
+
+<details>
+<summary>13. Structured concurrency ile <code>ExecutorService</code> arasındaki fark nedir?</summary>
+
+`ExecutorService` ile başlattığımız görevler birbirinden bağımsızdır; biri hata alınca diğerlerini iptal etmek ve
+kaynakları kapatmak bizim sorumluluğumuzdadır. `StructuredTaskScope` alt görevleri bir blok içinde toplar, bir
+görev hata alınca diğerlerini iptal eder ve blok bittiğinde açık thread kalmamasını garanti eder.
+</details>
+
 ### Kaynaklar
 
 - OCP Oracle Certified Professional Java SE 21 Developer Study Guide – Scott Selikoff & Jeanne Boyarsky
 - https://openjdk.org/projects/jdk/
+- https://openjdk.org/projects/jdk/26/
+- https://openjdk.org/projects/jdk/27/
 - https://bilisim.io/2024/10/06/9126/
 
 Faydalı olması dileğiyle.

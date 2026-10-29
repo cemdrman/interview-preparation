@@ -32,7 +32,7 @@ README'deki her konu için `soru + örnek kod + cevap` üçlüsü ile bir klasö
 - [ ] **Stream API**: `map`/`flatMap`, `groupingBy`, `reduce`, lazy evaluation, paralel stream tuzakları.
 - [ ] **Thread / Concurrency**: `synchronized`, `volatile`, `ExecutorService`, `CompletableFuture`, deadlock örneği.
 - [ ] **Generics**: wildcard (`? extends` / `? super`, PECS), type erasure.
-- [x] **Modern Java (9–25)**: `var`, text block, `record`, `sealed` sınıflar, pattern matching, virtual thread, sequenced collection, scoped value ve diğerleri. Bkz. [YeniJavaOzellikleri.md](src/main/java/modernjava/YeniJavaOzellikleri.md)
+- [x] **Modern Java (9–27)**: `var`, text block, `record`, `sealed` sınıflar, pattern matching, virtual thread, sequenced collection, scoped value ve diğerleri. Bkz. [YeniJavaOzellikleri.md](src/main/java/modernjava/YeniJavaOzellikleri.md)
 - [ ] **JVM**: bellek alanları (heap, stack, metaspace), garbage collector türleri, `String` pool.
 
 ### 3. Algoritma ve Veri Yapıları
@@ -45,9 +45,9 @@ README'deki her konu için `soru + örnek kod + cevap` üçlüsü ile bir klasö
 
 - [ ] `Senior_Java_Developer_550_Soru_Cevapsiz.pdf` içindeki soruları konu başlıklarına göre Markdown dosyalarına böl; cevaplar zamanla eklenebilir.
 - [ ] **System Design** vaka çalışmaları: URL kısaltıcı, rate limiter, bildirim servisi, e-ticaret sipariş akışı.
-- [ ] **Spring Boot** örnek proje: REST API + JPA + validation + global exception handling + Testcontainers ile entegrasyon testi.
+- [x] **Spring Boot** örnek proje: REST API + JPA + validation + global exception handling + Testcontainers ile entegrasyon testi. Bkz. [ornek-proje](ornek-proje)
 - [ ] **Mikroservis** konuları için kısa notlar: Saga, Outbox, Circuit Breaker, idempotency, distributed tracing.
-- [ ] **Kafka / RabbitMQ** için küçük bir producer/consumer örneği (Docker Compose ile).
+- [x] **Kafka / RabbitMQ** için küçük bir producer/consumer örneği (Docker Compose ile). Bkz. [ornek-proje](ornek-proje)
 
 ### 5. Mülakat Süreci
 

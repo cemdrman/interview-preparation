@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: randevu-servisi
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:randevudb
+  jpa:
+    open-in-view: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.cemdrman.randevu.randevu
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 1s
+  cloud:
+    openfeign:
+      client:
+        config:
+          doktor-servisi:
+            connect-timeout: 2000
+            read-timeout: 3000
+
+doktor-servisi:
+  url: http://localhost:8081
+
+logging:
+  level:
+    com.cemdrman.randevu.client: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

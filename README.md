@@ -12,7 +12,7 @@
 - Stream API
 - Thread
 - Generics
-- [Yeni Java Özellikleri (Java 9 → 25)](src/main/java/modernjava/YeniJavaOzellikleri.md)
+- [Yeni Java Özellikleri (Java 9 → 27)](src/main/java/modernjava/YeniJavaOzellikleri.md)
 
 ### Ekstra Konular
 - SQL
@@ -21,6 +21,18 @@
 - Docker
 - Spring Framework
 - Unit Test
+
+### Konu Anlatımları
+
+- [Spring Boot](konular/spring-boot.md)
+- [Apache Kafka](konular/kafka.md)
+- [Redis](konular/redis.md)
+- [RabbitMQ](konular/rabbitmq.md)
+- [Feign Client](konular/feign-client.md)
+
+### Örnek Proje
+
+- [Hastane Randevu Sistemi](ornek-proje): Spring Boot 4, Kafka, Redis, RabbitMQ ve Feign Client bir arada
 
 ### Önerilen Kitaplar
 
