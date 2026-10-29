@@ -32,7 +32,7 @@ README'deki her konu için `soru + örnek kod + cevap` üçlüsü ile bir klasö
 - [ ] **Stream API**: `map`/`flatMap`, `groupingBy`, `reduce`, lazy evaluation, paralel stream tuzakları.
 - [ ] **Thread / Concurrency**: `synchronized`, `volatile`, `ExecutorService`, `CompletableFuture`, deadlock örneği.
 - [ ] **Generics**: wildcard (`? extends` / `? super`, PECS), type erasure.
-- [x] **Modern Java (9–25)**: `var`, text block, `record`, `sealed` sınıflar, pattern matching, virtual thread, sequenced collection, scoped value ve diğerleri. Bkz. [YeniJavaOzellikleri.md](src/main/java/modernjava/YeniJavaOzellikleri.md)
+- [x] **Modern Java (9–27)**: `var`, text block, `record`, `sealed` sınıflar, pattern matching, virtual thread, sequenced collection, scoped value ve diğerleri. Bkz. [YeniJavaOzellikleri.md](src/main/java/modernjava/YeniJavaOzellikleri.md)
 - [ ] **JVM**: bellek alanları (heap, stack, metaspace), garbage collector türleri, `String` pool.
 
 ### 3. Algoritma ve Veri Yapıları

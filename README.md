@@ -12,7 +12,7 @@
 - Stream API
 - Thread
 - Generics
-- [Yeni Java Özellikleri (Java 9 → 25)](src/main/java/modernjava/YeniJavaOzellikleri.md)
+- [Yeni Java Özellikleri (Java 9 → 27)](src/main/java/modernjava/YeniJavaOzellikleri.md)
 
 ### Ekstra Konular
 - SQL
